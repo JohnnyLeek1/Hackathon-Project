@@ -42,6 +42,14 @@ const DemoPhrases = {
     "peaceful": { 'emotion': 'happy' },
     "delighted": { 'emotion': 'happy' },
     "upbeat": { 'emotion': 'happy' },
+
+    "I know if I ask her to the dance she's going to say no": { 'emotion': 'anxious' },
+    "I bet no one will come to my party": { 'emotion': 'anxious' },
+    "They probably think": { 'emotion': 'anxious' },
+    "I bet she thinks": { 'emotion': 'anxious' },
+    "Everything I say is dumb": { 'emotion': 'sad' },
+    "Everything I do is dumb": { 'emotion': 'sad' },
+    "I can't do anything right": { 'emotion': 'sad' }
 }
 
 const ColorMap = {
@@ -49,6 +57,26 @@ const ColorMap = {
     "anxious": "purple",
     "anger": "red",
     "happy": "green"
+
+}
+
+const ThinkingErrors = {
+
+    "I know if I ask her to the dance she's going to say no": "Fortune Telling",
+    "I bet no one will come to my party": "Fortune Telling",
+    "They probably think": "Mind Reading",
+    "I bet she thinks": "Mind Reading",
+    "Everything I say is dumb": "Negative Labeling",
+    "Everything I do is dumb": "Negative Labeling",
+    "I can't do anything right": "Negative Labeling"
+
+}
+
+const ThinkingErrorDescriptions = { 
+    
+    "Fortune Telling": "Thinking you know what will happen in the future, and that it will be bad.",
+    "Mind Reading": "Believing you know what someone else is thinking, or why they are doing something, without having enough information",
+    "Negative Labeling": "Having a negative belief about yourself and thinking it applies to everything you do."
 
 }
 
@@ -62,6 +90,8 @@ export default function JournalPage() {
     const [showTitleEntry, setShowTitleEntry] = useState(false);
     const [animationClass, setAnimationClass] = useState('from_right');
     const [sentimentAnalysis, setSentimentAnalysis] = useState([]);
+    const [sentimentAnalysisModal, setSentimentAnalysisModal] = useState(false);
+    const [thinkingErrors, setThinkingErrors] = useState([]);
 
     const journalTextArea = useRef(undefined);
 
@@ -76,6 +106,7 @@ export default function JournalPage() {
     // When the user finishes typing (that is, they haven't pressed a key in a min)
     const onFinishTyping = () => {
         let tempText = highlightedText;
+        let tempErrors = [];
 
         for(const phrase in DemoPhrases) {
             tempText = tempText.replace(RegExp(`[^.]*${phrase}[^.]*.`, 'gi'), `<mark class="${ColorMap[DemoPhrases[phrase].emotion]}">$&</mark>`)
@@ -84,12 +115,20 @@ export default function JournalPage() {
 
         setHighlightedText(tempText);
 
+        for(const error in ThinkingErrors) {
+            if(journalText.toLowerCase().includes(error.toLowerCase())) {
+                tempErrors.push(ThinkingErrors[error]);
+            }
+        }
+
+        setThinkingErrors(tempErrors);
+
         fetch('/journals/analyze_journal/', {
             method: 'POST',
             body: JSON.stringify({text: journalText})
         }).then(response => response.json())
         .then(data => {
-            setSentimentAnalysis(data);
+            setSentimentAnalysis(data.data);
             setAnalysisComplete(true);
         });
     }
@@ -150,13 +189,46 @@ export default function JournalPage() {
                     { journalText !== "" 
                     ? !analysisComplete 
                         ? <ThinkingIcon />
-                        : <DoneIcon />
+                        : <DoneIcon onClick={() => setSentimentAnalysisModal(true)}/>
                     : undefined
                     }
                 </div>
                 <div id="done_button_container" className={`${journalText !== ""? "fade_in" : "fade_out"} ${journalText === "" && !analysisComplete ? 'display_none' : undefined}`}>
-                    <button id="done_button" onClick={() => setShowTitleEntry(true)}>Complete</button>
+                    <button id="done_button" onClick={() => setSentimentAnalysisModal(true)}>Analyze</button>
                 </div>
+                {
+                sentimentAnalysisModal
+                    ? 
+                    <div id="sentiment_analysis_container">
+                        <div id="sentiment_analysis" className="modal from_bottom">
+                            <h1>This journal sounds</h1>
+                            <h3 className="sentiment_value_text">{sentimentAnalysis.value}</h3>
+                            <div id="negative_thought_patterns">
+                                {
+                                    sentimentAnalysis.value == "NEGATIVE"
+                                    ?
+                                        <>
+                                            <h3>Your negative thought errors:</h3>
+                                            <ul>
+                                                {thinkingErrors.length === 0 ? <li>Nothing specific detected.</li> : undefined}
+                                                {thinkingErrors.map((error, i) => {
+                                                    return (
+                                                        <li key={i}>{error} - {ThinkingErrorDescriptions[error]}</li>
+                                                    );
+                                                })}
+                                            </ul>
+                                            <div id="submit_container">
+                                                <span className='submit_button' onClick={() => setShowTitleEntry(true)}>Save Journal</span>
+                                            </div>
+                                        </>
+                                    : undefined
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    : undefined
+                }
+
                 {
                 showTitleEntry
                     ? 
