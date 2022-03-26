@@ -147,7 +147,6 @@
         }
 
         #input_container {
-            display: flex;
             align-items: center;
 
             color: #fff;
@@ -156,12 +155,17 @@
                 height: 40px;
                 border-radius: 7px;
             }
+        }
 
-            #submit_button {
-                margin-left: 7px;
-                border-radius: 50px;
-                width: 40px;
+        #submit_container {
+            display: flex;
+            justify-content: space-evenly;
+            width: 100%;
+
+            .submit_button {
+                border-radius: 25px;
                 height: 40px;
+                width: 45%;
                 background-color: #7ac142;
 
                 display: flex;

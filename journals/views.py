@@ -9,6 +9,7 @@ class ReactView(TemplateView):
     def get_context_data(self, **kwargs):
         return super(ReactView, self).get_context_data(**kwargs)
 
+
 def get_journals(request):
     journal_entries = Journal.objects.filter(author=request.user)
 
@@ -17,6 +18,7 @@ def get_journals(request):
         journal_list.append(entry.to_json())
 
     return JsonResponse({'journals': journal_list}, status=200)
+
 
 def create_journal(request):
     data = json.loads(request.body)
