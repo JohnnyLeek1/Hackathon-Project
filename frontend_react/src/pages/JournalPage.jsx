@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {ThinkingIcon, DoneIcon} from '../components/ThinkingIcon';
+import { useNavigate } from 'react-router-dom';
 
 const DemoPhrases = {
     "sad": { 'emotion': 'sad' },
@@ -48,13 +50,21 @@ export default function JournalPage() {
     const [typingTimeout, setTypingTimeout] = useState('');
     const [analysisComplete, setAnalysisComplete] = useState(false);
     const [showTitleEntry, setShowTitleEntry] = useState(false);
+    const [animationClass, setAnimationClass] = useState('from_right');
+
+    const navigate = useNavigate();
+
+    const back = () => {
+        setAnimationClass('to_right');
+        setTimeout(() => navigate('/choice'), 500);
+    }
 
     // When the user finishes typing (that is, they haven't pressed a key in a min)
     const onFinishTyping = () => {
         let tempText = highlightedText;
 
         for(const phrase in DemoPhrases) {
-            tempText = tempText.replace(RegExp(`[^.]*${phrase}[^.]*\.`, 'gi'), `<mark class="${ColorMap[DemoPhrases[phrase].emotion]}">$&</mark>`)
+            tempText = tempText.replace(RegExp(`[^.]*${phrase}[^.]*.`, 'gi'), `<mark class="${ColorMap[DemoPhrases[phrase].emotion]}">$&</mark>`)
         }
 
         setHighlightedText(tempText);
@@ -81,7 +91,9 @@ export default function JournalPage() {
         fetch('/journals/create_journal/', {
             method: 'POST',
             body: JSON.stringify({'title': title, 'letter_content': journalText})
-        })
+        }).then(() => back());
+
+
     }
 
     const createLetter = () => {
@@ -92,48 +104,47 @@ export default function JournalPage() {
     }
 
     return (
-        <div id="journal_page">
-            <div id="background"></div>
-            <div id="journal_highlight_background">
-                <div id="highlighted_text" dangerouslySetInnerHTML={{__html: highlightedText}}></div>
-            </div>
-            <textarea 
-                id="journal_text" 
-                name="journal_text" 
-                rows="4"
-                placeholder="How are you feeling?"
-                onChange={e => {setJournalText(e.target.value); setHighlightedText(e.target.value); }}
-                value={journalText}
-            >
-            </textarea>
-            <div id="thinking_icon">
-                { journalText !== "" 
-                  ? !analysisComplete 
-                    ? <ThinkingIcon />
-                    : <DoneIcon />
-                  : undefined
-                }
-            </div>
-            <div id="done_button_container" className={`${journalText !== ""? "fade_in" : "fade_out"} ${journalText === "" && !analysisComplete ? 'display_none' : undefined}`}>
-                <button id="done_button" onClick={() => setShowTitleEntry(true)}>Complete</button>
-            </div>
-            {
-            showTitleEntry
-                ? 
-                <div id="enter_title_container">
-                    <div id="enter_title" className="modal from_top">
-                        <h1>Title your entry:</h1>
-                        <div id="input_container">
-                            <input onChange={e => setTitle(e.target.value)} value={title}></input>
-                        </div>
-                        <div id="submit_container">
-                            <span className='submit_button' onClick={() => createJournal()}>Create Journal</span>
-                            <span className='submit_button' onClick={() => createLetter()}>Send Letter</span>
+        <div id="journal_page" className={animationClass}>
+            <div id="inner_container" className="page-container page">
+                <a onClick={() => back()} id="journal_back_button"><ArrowBackIcon/></a>
+                <div id="journal_highlight_background">
+                    <div id="highlighted_text" dangerouslySetInnerHTML={{__html: highlightedText}}></div>
+                </div>
+                <textarea 
+                    id="journal_text" 
+                    name="journal_text" 
+                    rows="4"
+                    placeholder="How are you feeling?"
+                    onChange={e => {setJournalText(e.target.value); setHighlightedText(e.target.value); }}
+                    value={journalText}
+                >
+                </textarea>
+                <div id="thinking_icon">
+                    { journalText !== "" 
+                    ? !analysisComplete 
+                        ? <ThinkingIcon />
+                        : <DoneIcon />
+                    : undefined
+                    }
+                </div>
+                <div id="done_button_container" className={`${journalText !== ""? "fade_in" : "fade_out"} ${journalText === "" && !analysisComplete ? 'display_none' : undefined}`}>
+                    <button id="done_button" onClick={() => setShowTitleEntry(true)}>Complete</button>
+                </div>
+                {
+                showTitleEntry
+                    ? 
+                    <div id="enter_title_container">
+                        <div id="enter_title" className="modal from_top">
+                            <h1>Title your entry:</h1>
+                            <div id="input_container">
+                                <input onChange={e => setTitle(e.target.value)} value={title}></input>
+                                <div id="submit_button" onClick={() => createJournal()}>✓</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                : undefined
-            }
+                    : undefined
+                }
+            </div>
         </div>
     );
 

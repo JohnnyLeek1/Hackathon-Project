@@ -9,9 +9,12 @@ import ResponseLettersPage from './pages/ResponseLettersPage';
 import ViewLetter from './pages/ViewLetter';
 import './styles/App.scss';
 
+
 function App() {
+
   return (
     <div id="root_container">
+      <div id="background"></div>
       <BrowserRouter>
         <Routes>
           <Route path="/choice" element={<ChoicePage />} />

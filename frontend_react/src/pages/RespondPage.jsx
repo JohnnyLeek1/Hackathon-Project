@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from "react";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function RespondPage() {
     const [letters, setLetters] = useState([]);
+
+    const navigate = useNavigate();
+    const [animationClass, setAnimationClass] = useState('from_right');
+
+    const back = () => {
+        setAnimationClass('to_right');
+        setTimeout(() => navigate('/choice'), 500);
+    }
 
     useEffect(() => {
         fetch('/letters/get_letters/')
@@ -14,11 +22,10 @@ export default function RespondPage() {
     }, [])
 
     return (
-        <div id="respond_page">
-            <div id="background"></div>
+        <div id="respond_page" className={animationClass}>
             <div id="container">
                 <div id="respond_panel">
-                    <NavLink to='/choice' id="back_button"><ArrowBackIcon/></NavLink>
+                    <a onClick={() => back()} id="back_button"><ArrowBackIcon/></a>
                     <h3 id="title">Letters To Respond To</h3>
                     <ul id="letter_list">
                     {   
