@@ -33,7 +33,7 @@ def create_letter(request):
     data = json.loads(request.body)
     data['author'] = request.user
 
-    letter = Letter.objects.create(**data)
+    Letter.objects.create(**data)
     return JsonResponse({'success': 'OK'}, status=200)
 
 
