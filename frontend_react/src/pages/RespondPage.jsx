@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { NavLink } from "react-router-dom";
 
 export default function RespondPage() {
     const [letters, setLetters] = useState([]);
@@ -16,6 +18,7 @@ export default function RespondPage() {
             <div id="background"></div>
             <div id="container">
                 <div id="respond_panel">
+                    <NavLink to='/choice' id="back_button"><ArrowBackIcon/></NavLink>
                     <h3 id="title">Letters To Respond To</h3>
                     <ul id="letter_list">
                     {   
