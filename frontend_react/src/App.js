@@ -6,6 +6,7 @@ import JournalPage from './pages/JournalPage';
 import PastJournalsPage from './pages/PastJournalsPage';
 import RespondPage from './pages/RespondPage';
 import ResponseLettersPage from './pages/ResponseLettersPage';
+import ViewLetter from './pages/ViewLetter';
 import './styles/App.scss';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route path="/respond" element={<RespondPage />} />
           <Route path="/journal_history" element={<PastJournalsPage />} />
           <Route path="/view_letters" element={<ResponseLettersPage />} />
+          <Route path="/view_letter/:letter_id" element={<ViewLetter />} />
           <Route path="/" element={<HomePage />} />
         </Routes>
       </BrowserRouter>

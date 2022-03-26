@@ -15,7 +15,8 @@ class Letter(AbstractLetter):
             'title': self.title,
             'letter_content': self.letter_content,
             'is_viewed': self.is_viewed,
-            'has_response': self.has_response
+            'has_response': self.has_response,
+            'pk': self.pk
         }
 
     def __str__(self):
@@ -29,7 +30,8 @@ class Response(AbstractLetter):
             'title': self.title,
             'letter_content': self.letter_content,
             'is_viewed': self.is_viewed,
-            'response_to': self.letter.to_json()
+            'response_to': self.letter.to_json(),
+            'pk': self.pk
         }
 
     def __str__(self):

@@ -1,0 +1,16 @@
+#respond_button {
+    position: absolute;
+    bottom: 50px;
+    border-radius: 7px;
+    margin-left: 25%;
+    margin-right: 25%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    background: #36e933;
+    padding: 10px;
+    
+    &:hover {
+        background-color: #16ac2f;
+    }
+}

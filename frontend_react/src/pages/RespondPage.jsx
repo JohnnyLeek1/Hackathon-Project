@@ -23,10 +23,12 @@ export default function RespondPage() {
                     <ul id="letter_list">
                     {   
                         letters.map((letter, index) => (
-                            <li key={index} className={'letter_item'}>
-                                <h4>{letter.title}</h4>
-                                <p>{letter.letter_content}</p>
-                            </li>
+                            <NavLink to={`/view_letter/${letter.pk}`}>
+                                <li key={index} className={'letter_item'}>
+                                    <h4>{letter.title}</h4>
+                                    <p>{letter.letter_content}</p>
+                                </li>
+                            </NavLink>
                         ))
                     }
                     </ul>

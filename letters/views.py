@@ -13,6 +13,12 @@ def get_letters(request):
     return JsonResponse({'letters': letter_list}, status=200)
 
 
+def get_letter(request, pk):
+    letter = Letter.objects.get(pk=pk)
+
+    return JsonResponse({'letter': letter.to_json()}, status=200)
+
+
 def get_responses(request):
     responses = Response.objects.filter(response_to__author=request.user)
 
