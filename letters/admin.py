@@ -4,10 +4,10 @@ from letters.models import Letter, Response
 
 
 class LetterAdmin(admin.ModelAdmin):
-    fields = ('author', 'letter_content', 'is_viewed', 'has_response')
+    fields = ('author', 'title', 'letter_content', 'is_viewed', 'has_response')
 
 class ResponseAdmin(admin.ModelAdmin):
-    fields = ('author', 'letter_content', 'is_viewed', 'response_to')
+    fields = ('author', 'title', 'letter_content', 'is_viewed', 'response_to')
 
 
 admin.site.register(Letter, LetterAdmin)
