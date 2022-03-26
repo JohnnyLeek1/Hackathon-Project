@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {ThinkingIcon, DoneIcon} from '../components/ThinkingIcon';
 import { useNavigate } from 'react-router-dom';
 
@@ -53,6 +54,11 @@ export default function JournalPage() {
 
     const navigate = useNavigate();
 
+    const back = () => {
+        setAnimationClass('to_right');
+        setTimeout(() => navigate('/choice'), 500);
+    }
+
     // When the user finishes typing (that is, they haven't pressed a key in a min)
     const onFinishTyping = () => {
         let tempText = highlightedText;
@@ -85,10 +91,7 @@ export default function JournalPage() {
         fetch('/journals/create_journal/', {
             method: 'POST',
             body: JSON.stringify({'title': title, 'letter_content': journalText})
-        }).then(() => {
-            setAnimationClass('to_right');
-            setTimeout(() => navigate('/choice'), 500);
-        })
+        }).then(() => back());
 
 
     }
@@ -96,6 +99,7 @@ export default function JournalPage() {
     return (
         <div id="journal_page" className={animationClass}>
             <div id="inner_container" className="page-container page">
+                <a onClick={() => back()} id="journal_back_button"><ArrowBackIcon/></a>
                 <div id="journal_highlight_background">
                     <div id="highlighted_text" dangerouslySetInnerHTML={{__html: highlightedText}}></div>
                 </div>

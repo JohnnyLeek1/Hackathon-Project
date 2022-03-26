@@ -3,6 +3,14 @@
     width: 100vw;
     height: 100vh;
 
+    #journal_back_button {
+        position: absolute;
+        color: #000;
+        top: 10px;
+        left: 15px;
+        z-index: 1000;
+    }
+
     #journal_highlight_background {
         background-image:url('../../resources/lines.png'), url('../../resources/paper.png');
         background-repeat:repeat-y, repeat;
