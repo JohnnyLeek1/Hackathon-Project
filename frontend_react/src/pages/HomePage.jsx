@@ -16,9 +16,10 @@ export default function HomePage() {
     return (
         <div id="home_page" className={animationClass}>
         <div id="container">
-            <h1 id="title">App Title</h1>
+            <h1 id="title">Wellbeing</h1>
             <button id="login_btn" onClick={() => next()}><span>Authenticate with </span><img src={ActionC_maroonwhite} alt="Cmich Logo" id="cmich_logo" /></button>
         </div>
+        <p id="image_credit">Background: Justin Maller, <a>facets.la</a></p>
         </div>
     );
 
