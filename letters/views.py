@@ -13,7 +13,7 @@ def get_letters(request):
 
 
 def get_responses(request):
-    responses = Response.objects.filter(letter__author=request.user)
+    responses = Response.objects.filter(response_to__author=request.user)
 
     response_list = []
     for response in responses:
