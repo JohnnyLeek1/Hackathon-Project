@@ -99,7 +99,7 @@ export default function JournalPage() {
         fetch('/letters/create_letter/', {
             method: 'POST',
             body: JSON.stringify({'title': title, 'letter_content': journalText})
-        })
+        }).then(() => back());
     }
 
     return (
@@ -137,7 +137,10 @@ export default function JournalPage() {
                             <h1>Title your entry:</h1>
                             <div id="input_container">
                                 <input onChange={e => setTitle(e.target.value)} value={title}></input>
-                                <div id="submit_button" onClick={() => createJournal()}>✓</div>
+                            </div>
+                            <div id="submit_container">
+                                <span className='submit_button' onClick={() => createJournal()}>Create Journal</span>
+                                <span className='submit_button' onClick={() => createLetter()}>Send Letter</span>
                             </div>
                         </div>
                     </div>

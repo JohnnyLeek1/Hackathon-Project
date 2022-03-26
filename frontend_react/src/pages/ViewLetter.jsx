@@ -30,7 +30,7 @@ export default function ViewLetter() {
         fetch('/letters/create_response/', {
             method: 'POST',
             body: JSON.stringify({'title': title, 'letter_content': response, 'response_to': letter_id})
-        })
+        }).then(() => back('/respond'));
     }
 
     function respondToLetter() {
