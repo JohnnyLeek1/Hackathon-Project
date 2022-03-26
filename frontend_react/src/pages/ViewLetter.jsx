@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import { useParams } from 'react-router-dom';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useParams, useNavigate } from 'react-router-dom';
 
 export default function ViewLetter() {
     const [title, setTitle] = useState('');
@@ -8,6 +9,14 @@ export default function ViewLetter() {
     const [showTitleEntry, setShowTitleEntry] = useState(false);
     const [showLetter, setShowLetter] = useState(true);
     const {letter_id} = useParams();
+
+    const navigate = useNavigate();
+    const [animationClass, setAnimationClass] = useState('from_right');
+
+    const back = to => {
+        setAnimationClass('to_right');
+        setTimeout(() => navigate(to), 500);
+    }
 
     useEffect(() => {
         fetch(`/letters/get_letter/${letter_id}/`)
@@ -29,13 +38,13 @@ export default function ViewLetter() {
     }
 
     return (
-        <div id="journal_page">
-            <div id="background"></div>
+        <div id="journal_page" className={animationClass}>
             <div id="journal_highlight_background">
                 <div id="highlighted_text"></div>
             </div>
             { showLetter ?
                 <>
+                    <a onClick={() => back('/respond')} id="view_letter_back_button"><ArrowBackIcon/></a>
                     <textarea readonly
                         id="journal_text" 
                         name="journal_text" 
@@ -48,6 +57,7 @@ export default function ViewLetter() {
                 </>
                 :
                 <>
+                    <a onClick={() => setShowLetter(true)} id="view_letter_back_button"><ArrowBackIcon/></a>
                     <textarea readonly
                         id="journal_text" 
                         name="journal_text" 

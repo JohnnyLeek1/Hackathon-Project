@@ -13,6 +13,11 @@ export default function RespondPage() {
         setTimeout(() => navigate('/choice'), 500);
     }
 
+    const next = to => {
+        setAnimationClass('to_right');
+        setTimeout(() => navigate(to), 500);
+    }
+
     useEffect(() => {
         fetch('/letters/get_letters/')
         .then(response => response.json())
@@ -30,12 +35,12 @@ export default function RespondPage() {
                     <ul id="letter_list">
                     {   
                         letters.map((letter, index) => (
-                            <NavLink to={`/view_letter/${letter.pk}`}>
+                            <a onClick={() => next(`/view_letter/${letter.pk}`)}>
                                 <li key={index} className={'letter_item'}>
                                     <h4>{letter.title}</h4>
                                     <p>{letter.letter_content}</p>
                                 </li>
-                            </NavLink>
+                            </a>
                         ))
                     }
                     </ul>

@@ -14,3 +14,11 @@
         background-color: #16ac2f;
     }
 }
+
+#view_letter_back_button {
+    position: absolute;
+    color: #000;
+    top: 10px;
+    left: 15px;
+    z-index: 1000;
+}
