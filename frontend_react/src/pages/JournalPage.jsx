@@ -68,7 +68,6 @@ export default function JournalPage() {
         }
 
         setHighlightedText(tempText);
-        // setHighlightedText(highlightedText.replace(/\n$/g, '\n\n').replace(/[A-Z].*?\b/g, '<mark>$&</mark>'))
         setAnalysisComplete(true);
     }
 
