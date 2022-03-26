@@ -33,12 +33,22 @@ const DemoPhrases = {
     "heaated": { 'emotion': 'anger' },
     "irate": { 'emotion': 'anger' },
     "offended": { 'emotion': 'anger' },
+    "happy": { 'emotion': 'happy' },
+    "cheerful": { 'emotion': 'happy' },
+    "good": { 'emotion': 'happy' },
+    "glad": { 'emotion': 'happy' },
+    "grateful": { 'emotion': 'happy' },
+    "pleasant": { 'emotion': 'happy' },
+    "peaceful": { 'emotion': 'happy' },
+    "delighted": { 'emotion': 'happy' },
+    "upbeat": { 'emotion': 'happy' },
 }
 
 const ColorMap = {
     "sad": "blue",
     "anxious": "purple",
-    "anger": "red"
+    "anger": "red",
+    "happy": "green"
 
 }
 
@@ -51,6 +61,8 @@ export default function JournalPage() {
     const [analysisComplete, setAnalysisComplete] = useState(false);
     const [showTitleEntry, setShowTitleEntry] = useState(false);
     const [animationClass, setAnimationClass] = useState('from_right');
+    const [sentimentAnalysis, setSentimentAnalysis] = useState([]);
+
     const journalTextArea = useRef(undefined);
 
     const navigate = useNavigate();
@@ -71,7 +83,15 @@ export default function JournalPage() {
         }
 
         setHighlightedText(tempText);
-        setAnalysisComplete(true);
+
+        fetch('/journals/analyze_journal/', {
+            method: 'POST',
+            body: JSON.stringify({text: journalText})
+        }).then(response => response.json())
+        .then(data => {
+            setSentimentAnalysis(data);
+            setAnalysisComplete(true);
+        });
     }
 
     // Start the timer for whether or not the user is done typing
@@ -92,11 +112,6 @@ export default function JournalPage() {
     const focusJournalArea = () => {
         journalTextArea.current.focus({preventScroll: true});
     }
-
-    useEffect(() => {
-        let eventListener = window.addEventListener('mouseup', focusJournalArea);
-        return () => window.removeEventListener(eventListener);
-    }, []);
 
     const createJournal = () => {
         fetch('/journals/create_journal/', {
