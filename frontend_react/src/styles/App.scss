@@ -8,6 +8,9 @@
 @import './pages/HomePage';
 @import './pages/ChoicePage';
 @import './pages/JournalPage';
+@import './pages/RespondPage';
+@import './pages/PastJournalsPage';
+@import './pages/ResponseLettersPage';
 
 body {
     font-family: 'Roboto', sans-serif;
@@ -49,3 +52,10 @@ button {
 }
 
 .display_none { display: none !important; }
+
+#back_button {
+    position: absolute;
+    color: white;
+    left: 28px;
+    top: 40px;
+}

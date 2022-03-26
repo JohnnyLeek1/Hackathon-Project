@@ -1,3 +1,14 @@
 from django.contrib import admin
 
-# Register your models here.
+from letters.models import Letter, Response
+
+
+class LetterAdmin(admin.ModelAdmin):
+    fields = ('author', 'title', 'letter_content', 'is_viewed', 'has_response')
+
+class ResponseAdmin(admin.ModelAdmin):
+    fields = ('author', 'title', 'letter_content', 'is_viewed', 'response_to')
+
+
+admin.site.register(Letter, LetterAdmin)
+admin.site.register(Response, ResponseAdmin)

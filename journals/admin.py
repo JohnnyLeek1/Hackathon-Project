@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from journals.models import Journal
+
+class JournalsAdmin(admin.ModelAdmin):
+    fields = ('author', 'title', 'letter_content')
+
+admin.site.register(Journal, JournalsAdmin)
