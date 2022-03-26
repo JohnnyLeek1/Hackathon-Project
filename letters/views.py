@@ -1,9 +1,10 @@
+import json
 from django.http import JsonResponse
 from letters.models import Letter, Response
 
 
 def get_letters(request):
-    letters = Letter.objects.filter(is_viewed=False, has_response=False)
+    letters = Letter.objects.filter(is_viewed=False, has_response=False).exclude(author=request.user)
 
     letter_list = []
     for letter in letters:
@@ -20,3 +21,7 @@ def get_responses(request):
         response_list.append(response.to_json())
 
     return JsonResponse({'responses': response_list}, status=200)
+
+def create_response(request):
+    data = json.loads(request.body)
+    
