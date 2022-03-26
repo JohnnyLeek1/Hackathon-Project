@@ -54,7 +54,7 @@ export default function JournalPage() {
         let tempText = highlightedText;
 
         for(const phrase in DemoPhrases) {
-            tempText = tempText.replace(RegExp(`[^.]*${phrase}[^.]*\.`, 'g'), `<mark class="${ColorMap[DemoPhrases[phrase].emotion]}">$&</mark>`)
+            tempText = tempText.replace(RegExp(`[^.]*${phrase}[^.]*\.`, 'gi'), `<mark class="${ColorMap[DemoPhrases[phrase].emotion]}">$&</mark>`)
         }
 
         setHighlightedText(tempText);
@@ -76,6 +76,13 @@ export default function JournalPage() {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [journalText]);
+
+    const createJournal = () => {
+        fetch('/journals/create_journal/', {
+            method: 'POST',
+            body: JSON.stringify({'title': title, 'letter_content': journalText})
+        })
+    }
 
     return (
         <div id="journal_page">
@@ -111,7 +118,7 @@ export default function JournalPage() {
                         <h1>Title your entry:</h1>
                         <div id="input_container">
                             <input onChange={e => setTitle(e.target.value)} value={title}></input>
-                            <div id="submit_button">✓</div>
+                            <div id="submit_button" onClick={() => createJournal()}>✓</div>
                         </div>
                     </div>
                 </div>

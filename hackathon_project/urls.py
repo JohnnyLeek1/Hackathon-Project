@@ -15,9 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls import url
+from journals.views import ReactView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('letters/', include('letters.urls')),
     path('journals/', include('journals.urls')),
+    url(r'', ReactView.as_view()),
+    url(r'^.*/$', ReactView.as_view())
 ]
