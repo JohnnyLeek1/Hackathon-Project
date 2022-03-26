@@ -4,6 +4,7 @@ import ChoicePage from './pages/ChoicePage';
 import HomePage from './pages/HomePage';
 import PastJournalsPage from './pages/PastJournalsPage';
 import RespondPage from './pages/RespondPage';
+import ResponseLettersPage from './pages/ResponseLettersPage';
 import './styles/App.scss';
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
           <Route path="/choice" element={<ChoicePage />} />
           <Route path="/respond" element={<RespondPage />} />
           <Route path="/journal_history" element={<PastJournalsPage />} />
+          <Route path="/view_letters" element={<ResponseLettersPage />} />
           <Route path="/" element={<HomePage />} />
         </Routes>
       </BrowserRouter>
