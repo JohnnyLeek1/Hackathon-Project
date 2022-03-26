@@ -1,15 +1,22 @@
+import json
 from django.http import JsonResponse
 from letters.models import Letter, Response
 
 
 def get_letters(request):
-    letters = Letter.objects.filter(is_viewed=False, has_response=False)
+    letters = Letter.objects.filter(is_viewed=False, has_response=False).exclude(author=request.user)
 
     letter_list = []
     for letter in letters:
         letter_list.append(letter.to_json())
 
     return JsonResponse({'letters': letter_list}, status=200)
+
+
+def get_letter(request, pk):
+    letter = Letter.objects.get(pk=pk)
+
+    return JsonResponse({'letter': letter.to_json()}, status=200)
 
 
 def get_responses(request):
@@ -20,3 +27,20 @@ def get_responses(request):
         response_list.append(response.to_json())
 
     return JsonResponse({'responses': response_list}, status=200)
+
+
+def create_letter(request):
+    data = json.loads(request.body)
+    data['author'] = request.user
+
+    letter = Letter.objects.create(**data)
+    return JsonResponse({'success': 'OK'}, status=200)
+
+
+def create_response(request):
+    data = json.loads(request.body)
+    data['author'] = request.user
+    data['response_to'] = Letter.objects.get(pk=int(data['response_to']))
+
+    response = Response.objects.create(**data)
+    return JsonResponse({'success': 'OK'}, status=200)

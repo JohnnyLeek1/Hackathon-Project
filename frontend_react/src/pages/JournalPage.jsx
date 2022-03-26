@@ -95,6 +95,13 @@ export default function JournalPage() {
 
     }
 
+    const createLetter = () => {
+        fetch('/letters/create_letter/', {
+            method: 'POST',
+            body: JSON.stringify({'title': title, 'letter_content': journalText})
+        })
+    }
+
     return (
         <div id="journal_page" className={animationClass}>
             <div id="inner_container" className="page-container page">
