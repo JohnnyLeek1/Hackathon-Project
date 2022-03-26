@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {ThinkingIcon, DoneIcon} from '../components/ThinkingIcon';
 import { useNavigate } from 'react-router-dom';
@@ -51,6 +51,7 @@ export default function JournalPage() {
     const [analysisComplete, setAnalysisComplete] = useState(false);
     const [showTitleEntry, setShowTitleEntry] = useState(false);
     const [animationClass, setAnimationClass] = useState('from_right');
+    const journalTextArea = useRef(undefined);
 
     const navigate = useNavigate();
 
@@ -59,12 +60,14 @@ export default function JournalPage() {
         setTimeout(() => navigate('/choice'), 500);
     }
 
+
     // When the user finishes typing (that is, they haven't pressed a key in a min)
     const onFinishTyping = () => {
         let tempText = highlightedText;
 
         for(const phrase in DemoPhrases) {
             tempText = tempText.replace(RegExp(`[^.]*${phrase}[^.]*.`, 'gi'), `<mark class="${ColorMap[DemoPhrases[phrase].emotion]}">$&</mark>`)
+
         }
 
         setHighlightedText(tempText);
@@ -85,6 +88,15 @@ export default function JournalPage() {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [journalText]);
+
+    const focusJournalArea = () => {
+        journalTextArea.current.focus({preventScroll: true});
+    }
+
+    useEffect(() => {
+        let eventListener = window.addEventListener('mouseup', focusJournalArea);
+        return () => window.removeEventListener(eventListener);
+    }, []);
 
     const createJournal = () => {
         fetch('/journals/create_journal/', {
@@ -113,6 +125,7 @@ export default function JournalPage() {
                     id="journal_text" 
                     name="journal_text" 
                     rows="4"
+                    ref={journalTextArea}
                     placeholder="How are you feeling?"
                     onChange={e => {setJournalText(e.target.value); setHighlightedText(e.target.value); }}
                     value={journalText}
