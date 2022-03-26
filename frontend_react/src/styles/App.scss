@@ -1,0 +1,45 @@
+@import './colors';
+@import './reset';
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap');
+
+/* Page imports */
+@import './pages/HomePage';
+@import './pages/ChoicePage';
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+#background {
+    width: 100vw;
+    height: 100vh;
+
+    background-image: url('../resources/wallpaper.jpg');
+    background-size: cover;
+    background-position: center;
+
+    position: fixed;
+    z-index: -1;
+}
+
+button {
+    width: 80vw;
+    height: 50px;
+
+    border-radius: 7px;
+    border: none;
+
+    color: #fff;
+    background-color: $bg-less-dark;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: background-color .2s;
+
+    &:hover {
+        background-color: $bg-dark;
+    }
+}
