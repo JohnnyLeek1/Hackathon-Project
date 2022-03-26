@@ -40,7 +40,12 @@ def create_letter(request):
 def create_response(request):
     data = json.loads(request.body)
     data['author'] = request.user
-    data['response_to'] = Letter.objects.get(pk=int(data['response_to']))
+    
+    letter = Letter.objects.get(pk=int(data['response_to']))
+    letter.has_response = True
+    letter.save()
 
-    response = Response.objects.create(**data)
+    data['response_to'] = letter
+
+    Response.objects.create(**data)
     return JsonResponse({'success': 'OK'}, status=200)
