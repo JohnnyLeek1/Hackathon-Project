@@ -1,14 +1,18 @@
 @import './colors';
 @import './reset';
+@import './animations';
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap');
 
 /* Page imports */
 @import './pages/HomePage';
 @import './pages/ChoicePage';
+@import './pages/JournalPage';
 
 body {
     font-family: 'Roboto', sans-serif;
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 #background {
@@ -43,3 +47,5 @@ button {
         background-color: $bg-dark;
     }
 }
+
+.display_none { display: none !important; }
