@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.views.generic.base import TemplateView
 from .models import Journal
 import json
+import flair
 
 class ReactView(TemplateView):
     template_name = 'base.html'
@@ -26,3 +27,14 @@ def create_journal(request):
 
     journal = Journal.objects.create(**data)
     return JsonResponse({'success': journal.to_json()}, status=200)
+
+def analyze_journal(request):
+    data = json.loads(request.body)
+    flair_sentiment = flair.models.TextClassifier.load('en-sentiment')
+
+    sentence = flair.data.Sentence(data['text'])
+    flair_sentiment.predict(sentence)
+    total_sentiment = sentence.labels
+
+    return JsonResponse({'success': 'OK', 'data': { 'value': sentence.labels[-1].value, 'score': sentence.labels[-1].score }})
+
