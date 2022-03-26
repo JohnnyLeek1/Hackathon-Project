@@ -2,6 +2,7 @@ import React from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import ChoicePage from './pages/ChoicePage';
 import HomePage from './pages/HomePage';
+import JournalPage from './pages/JournalPage';
 import PastJournalsPage from './pages/PastJournalsPage';
 import RespondPage from './pages/RespondPage';
 import ResponseLettersPage from './pages/ResponseLettersPage';
@@ -13,6 +14,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/choice" element={<ChoicePage />} />
+          <Route path="/journal" element={<JournalPage />} />
           <Route path="/respond" element={<RespondPage />} />
           <Route path="/journal_history" element={<PastJournalsPage />} />
           <Route path="/view_letters" element={<ResponseLettersPage />} />

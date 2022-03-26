@@ -1,0 +1,182 @@
+#journal_page {
+
+    #journal_highlight_background {
+        background-image:url(https://static.tumblr.com/maopbtg/E9Bmgtoht/lines.png), url(https://static.tumblr.com/maopbtg/nBUmgtogx/paper.png);
+        background-repeat:repeat-y, repeat;
+
+        #highlighted_text {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+
+            mark {
+                border-radius: 3px;
+                color: transparent;
+
+                &.green { background-color: #7ac142; }
+                &.red { background-color: #b82c46; }
+                &.purple { background-color: #c98dc1; }
+                &.blue { background-color: #498be3; }
+            }
+        }
+    }
+
+
+    #journal_text,
+    #journal_highlight_background {
+        position: absolute;
+        left: -20vw;
+
+        outline: none;
+        border: none;
+        margin: 0px;
+        padding: 0px;
+        font-family: Courier, monospace;
+
+        font-size: 24px;
+        width: 120vw;
+        height: 100vh;
+        border-radius: 7px;
+
+        overflow-x: hidden;
+
+        font-weight: normal;
+        resize: none;
+        line-height: 40px;
+        padding: 43px 1px 50px 98px;
+    }
+
+    #journal_text {
+        background-color: transparent;
+        color: #222;
+    }
+
+    #thinking_icon {
+        svg {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            z-index: 998;
+
+            width: 30px;
+            height: 30px;
+        }
+
+        #success_animation {
+            border-radius: 50%;
+            display: block;
+            stroke-width: 2;
+            stroke: #fff;
+            stroke-miterlimit: 10;
+            box-shadow: inset 0px 0px 0px #7ac142;
+            animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+    
+            .circle {
+                stroke-dasharray: 166;
+                stroke-dashoffset: 166;
+                stroke-width: 50;
+                stroke-miterlimit: 10;
+                stroke: #7ac142;
+                fill: none;
+                animation: stroke .6s cubic-bezier(0.650, 0.000, 0.450, 1.000) forwards;
+            }
+    
+            .check {
+                transform-origin: 50% 50%;
+                stroke-dasharray: 48;
+                stroke-dashoffset: 48;
+                animation: stroke .3s cubic-bezier(0.650, 0.000, 0.450, 1.000) .8s forwards;
+              }
+        }
+
+        @keyframes stroke {
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+        
+        @keyframes scale {
+            0%, 100% {
+                transform: none;
+            }
+            50% {
+                transform: scale3d(1.1, 1.1, 1);
+            }
+        }
+        
+        @keyframes fill {
+            100% {
+                box-shadow: inset 0px 0px 0px 30px #7ac142;
+            }
+        }
+    }
+
+    #done_button_container {
+        position: absolute;
+        z-index: 998;
+        bottom: 5px;
+
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    #enter_title_container {
+        width: 100%;
+        height: 100vh;
+        z-index: 999;
+
+        position: absolute;
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    #enter_title {
+        width: 100%;
+        height: 30vh;
+
+        background-color: $bg-dark;
+
+        display: flex;
+        flex-direction: column;
+
+        align-items: center;
+        justify-content: space-evenly;
+
+        h1 {
+            color: #fff;
+            font-weight: 100;
+        }
+
+        #input_container {
+            display: flex;
+            align-items: center;
+
+            color: #fff;
+
+            input {
+                height: 40px;
+                border-radius: 7px;
+            }
+
+            #submit_button {
+                margin-left: 7px;
+                border-radius: 50px;
+                width: 40px;
+                height: 40px;
+                background-color: #7ac142;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                font-size: 18px;
+
+                transition: background-color .2s;
+
+                &:hover {
+                    background-color: #54852f;
+                }
+            }
+        }
+    }
+
+}
